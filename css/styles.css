@@ -1,0 +1,155 @@
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+  
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  /* Add some padding inside the card container */
+  .container {
+    padding: 2px 16px;
+  }
+  #logo {
+    background-image: none;
+    background-color: #99cc00;
+    }  
+    h1 {
+        display: block;
+        font-size: 2em;
+        margin-block-start: 0.67em;
+        margin-block-end: 0.67em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    #logo a {
+        height: 80px;
+        display: block;
+        background: url(../images/wflogo-padding.png) no-repeat left top;
+        overflow: hidden;
+    }
+    a:-webkit-any-link {
+        color: -webkit-link;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .wufoo label.desc, .wufoo legend.desc, .likert caption {
+        font-size: 95% !important;
+        font-family: inherit;
+        font-style: normal;
+        font-weight: bold;
+        color: #444444 !important;
+    }
+    label.desc, legend.desc {
+        
+        line-height: 150%;
+        margin: 0;
+        padding: 0 0 3px 0;
+        border: none;
+        display: block;
+        white-space: normal;
+        width: 100%;
+    }
+    
+    label {
+        cursor: default;
+    }
+    li {
+        text-align: -webkit-match-parent;
+    }
+    form ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    ul {
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        padding-inline-start: 40px;
+    }
+    .wufoo {
+        font-family: "Lucida Grande","Lucida Sans Unicode", Tahoma, sans-serif;
+        letter-spacing: .01em;
+    }
+    form ul:after, form li:after, form li div:after {
+        content: ".";
+        display: block;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+    #container {
+        text-align: left;
+        background: #fff;
+        border: 1px solid #ccc;
+        -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
+        -o-box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 5px;
+        box-shadow: rgb(0 0 0 / 20%) 0px 0px 5px;
+        border: 0 solid #cccccc;
+        margin: 0 auto 10px auto;
+        width: 640px;
+    }
+    form.wufoo {
+        margin: 20px 14px 0 14px;
+        padding: 0 0 20px 0;
+        position: relative;
+    }
+    form {
+        display: block;
+        margin-top: 0em;
+    }
+    #container, html.embed {
+        background-color: #FFFFFF;
+    }
+    div {
+        display: block;
+    }
+    form li {
+        margin: 0;
+        padding: 6px 1% 9px 1%;
+        clear: both;
+        background-color: transparent;
+        position: relative;
+        -moz-transition: background-color 350ms ease-out;
+        -o-transition: background-color 350ms ease-out;
+        transition: background-color 350ms ease-out;
+    }
+    .wufoo input.text, .wufoo textarea.textarea, .wufoo input.file, .wufoo select.select, .wufoo li .wufoo-dropdown span {
+        font-style: normal;
+        font-weight: normal;
+        color: #333333 !important;
+        font-size: 100% !important;
+    }
+    select {
+    
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    box-sizing: border-box;
+    align-items: center;
+    white-space: pre;
+    -webkit-rtl-ordering: logical;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    cursor: default;
+    margin: 0em;
+    border-width: 1px;
+    border-style: solid;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+    border-radius: 0px;
+}
