@@ -1,5 +1,5 @@
 <cfif NOT IsDefined ('session.stLoggedInUser.username')>
-    <cflocation url="task27.cfm" addtoken="No">
+    <cflocation url="index.cfm" addtoken="No">
 </cfif>
 <!DOCTYPE html>
 <html lang="en">
