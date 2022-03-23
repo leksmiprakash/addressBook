@@ -54,7 +54,7 @@
 								<div class="card-body col-md-8">
 									<cfparam name="form.userName" type="string" default="">
 									<cfparam name="form.password" type="string" default="">
-									<form action="" method="post" name="login" id="login"  onsubmit="return validateform()">
+									<form action="" method="post" name="login" id="login"  onsubmit="return Validation()">
 										<div class="form-group mt-2">
 											<td><input type="Text"  placeholder="Username" name="userName" class="form-control w3-input"  id="userName"></td>
 										</div>
@@ -62,7 +62,7 @@
 											<input type="password"  placeholder="Password" name="password" class="form-control w3-input"   id="password">
 										</div>
 										<div class="form-group mt-4" align="center">
-											<input type="submit" class="button-17" name="formSubmit" value="Login">
+											<input type="submit" class="button-17" name="formSubmit" id="formSubmit" value="Login">
 										</div>
 									</form>
 									<p class="forText" >Or sign in using</p>
@@ -97,3 +97,25 @@
 		</div>
 	</body>
 </html>
+<script type="text/javascript">
+	
+	function Validation(){ 
+		let userName= $('#userName').val();
+		let password= $('#password').val();
+		if(userName=='')
+		{
+			$('#userName').attr('placeholder',' User Name is required');
+			$('#userName').css('border-color','#F00');
+			return false;
+		}
+		else if(password=='')
+		{
+			$('#password').attr('placeholder','Password are required');
+			$('#password').css('border-color','#F00');
+			return false;
+		}
+		else{
+			return true;
+		}                                       
+	}	
+</script>     
