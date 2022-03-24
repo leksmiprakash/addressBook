@@ -40,7 +40,7 @@
 				</div>
 			</div>
 		</nav>
-		<div class="" style="background:#d8e5f1;">
+		<div class="" >
 			<div class="container-fluid"><br><br>
 				<div class="row">
 					<div class="mt-5 ">
@@ -55,13 +55,13 @@
 									<cfparam name="form.userName" type="string" default="">
 									<cfparam name="form.password" type="string" default="">
 									<form action="" method="post" name="login" id="login"  onsubmit="return Validation()">
-										<div class="form-group mt-2">
+										<div class="form-group mt-5">
 											<td><input type="Text"  placeholder="Username" name="userName" class="form-control w3-input"  id="userName"></td>
 										</div>
-										<div class="form-group mt-2">
+										<div class="form-group mt-5">
 											<input type="password"  placeholder="Password" name="password" class="form-control w3-input"   id="password">
 										</div>
-										<div class="form-group mt-4" align="center">
+										<div class="form-group mt-5" align="center">
 											<input type="submit" class="button-17" name="formSubmit" id="formSubmit" value="Login">
 										</div>
 									</form>

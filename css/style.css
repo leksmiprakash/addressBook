@@ -1,3 +1,7 @@
+body{
+    background:#d8e5f1;
+}
+
 .forBackground {
    
     background:#337ab7;
@@ -107,7 +111,7 @@
 }
 .forText {
     text-align: center;
-    padding: 20px;
+    padding-top: 10px;
     color: #174ea6;
     font-size: 13px;
 }
@@ -119,7 +123,7 @@
 .contact-create-btn{
   border-radius: 15px;
   height: 40px;
-  background: #55b8ff;
+  background: #0d6efd;
   color: #fff;
   font-size: 17px;
   font-weight: 700;
@@ -141,6 +145,59 @@
   color: #174ea6;
   font-size: 30px;
 }
+.button-18 {
+    position: relative;
+    display: inline-block;
+    padding: 2px 15px;
+    text-align: center;
+    font-size: 12px;
+    letter-spacing: .25px;
+    text-decoration: none;
+    color: #55b8ff;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border-radius: 30px;
+    border: 2px solid #55b8ff;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #55b8ff;
+}
+   
+.button-18:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #55b8ff;
+}
+   
+.button-18:active {
+    transform: scale(0.9);
+}
+.profile-section1 {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.boxHead{
+    background-color: #d9edf7;
+    width: 300px;
+    padding: 2px 30px 2px 30px;
+    text-align: center;
+    color: #174ea6;
+    margin: 0 auto;
+}
+.forHr {
+    display: inline;
+    border-bottom: 3px solid #0d6efd;
+    width: 100%; 
+}
+.classWhite{
+    background:#fff;
+}
+.classMargin{
+    margin:7px;
+}
+
+
+
 
 
 
