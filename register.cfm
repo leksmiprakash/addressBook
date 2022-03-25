@@ -41,7 +41,7 @@
 			</div>
 		</nav>
 		<div class="" style="background:#d8e5f1;">
-			<div class="container-fluid"><br><br>
+			<div class="container-fluid">
 				<div class="row">
 					<div class="mt-5 ">
 						<div class="col-7 card shadow mb-5 bg-white rounded forMargin" style="border-radius: 250px;">
@@ -55,12 +55,12 @@
 									<cfparam name="form.userName" type="string" default="">
 									<cfparam name="form.password" type="string" default="">
                                     <h3 class="forHeading">SIGN Up</h3>
-									<form action="" method="post" name="signup" id="signup"   onsubmit="return validateSignup()">
+									<form action="" method="post" name="signup" id="signup"   onsubmit="return Validation()">
                                         <div class="form-group mt-2">
 											<td><input type="Text"  placeholder="Full Name" name="fullName" class="form-control w3-input"  id="fullName"></td>
 										</div>
                                         <div class="form-group mt-2">
-											<td><input type="Text" placeholder="Email" name="email" class="form-control w3-input"  id="email"></td>
+											<td><input type="email" placeholder="Email" name="email" class="form-control w3-input"  id="email"></td>
 										</div>
 										<div class="form-group mt-2">
 											<td><input type="Text"  placeholder="Username" name="userName" class="form-control w3-input"  id="userName"></td>
@@ -81,9 +81,57 @@
 					</div>
 				</div>
 			</div>
-        <cfif StructKeyExists(Form,'formSubmit')>
-            <cfinvoke component="components.register" method="registerQuery" returnvariable="result">
-            <cfoutput>Inserted Successfully</cfoutput>
-        </cfif>
+			<cfif StructKeyExists(Form,'formSubmit')>
+				<cfinvoke component="components.register" method="registerQuery" returnvariable="result">
+				<cfoutput>Inserted Successfully</cfoutput>
+			</cfif>
     </body> 
 </html>
+
+<script type="text/javascript">
+	function Validation(){ 
+		let fullName= $('#fullName').val();
+		let email   = $('#email').val();
+		let userName= $('#userName').val();
+		let password= $('#password').val();
+		let cpassword= $('#cpassword').val();
+
+		if(fullName=='')
+		{
+			$('#fullName').attr('placeholder','Full Name required');
+			$('#fullName').css('border-color','#F00');
+			return false;
+		}
+		if(email=='')
+		{
+			$('#email').attr('placeholder','Email required');
+			$('#email').css('border-color','#F00');
+			return false;
+		}
+		if(userName=='')
+		{
+			$('#userName').attr('placeholder',' Username required');
+			$('#userName').css('border-color','#F00');
+			return false;
+		}
+		else if(password=='')
+		{
+			$('#password').attr('placeholder','Password required');
+			$('#password').css('border-color','#F00');
+			return false;
+		}
+		else if(cpassword!=password)
+		{
+			$('#password').val('');
+			$('#cpassword').val('');
+			$('#password').attr('placeholder','Password and confirm password should be equal');
+			$('#cpassword').attr('placeholder','Password and confirm password should be equal');
+			$('#password').css('border-color','#F00');
+			$('#cpassword').css('border-color','#F00');
+			return false;
+		}
+		else{
+			return true;
+		}                                       
+	}	
+</script>   

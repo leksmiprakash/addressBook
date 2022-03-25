@@ -16,14 +16,14 @@
     <body>		
 		<nav class="navbar navbar-expand-lg navbar-dark forBackground">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#"><i class="fa fa-address-book-o" aria-hidden="true"></i>ADDRESS BOOK</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<a class="navbar-brand" href="##"><i class="fa fa-address-book-o" aria-hidden="true"></i>ADDRESS BOOK</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="##navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarContent">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-							<a class="nav-link active" href="#">Home</a>
+							<a class="nav-link active" href="##">Home</a>
 						</li>
 					</ul>
 					<ul class="navbar-nav">
@@ -31,17 +31,17 @@
 							<a class="nav-link active" href="register.cfm"><i class="fa fa-user-o" aria-hidden="true"></i> Sign Up</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link active" href="#"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a>
+							<a class="nav-link active" href="##"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">&nbsp;</a>
+							<a class="nav-link" href="##">&nbsp;</a>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</nav>
 		<div class="" >
-			<div class="container-fluid"><br><br>
+			<div class="container-fluid">
 				<div class="row">
 					<div class="mt-5 ">
 						<div class="col-7 card shadow mb-5 bg-white rounded forMargin" style="border-radius: 250px;">
@@ -70,30 +70,29 @@
 										<img src="./images/fb.png" />
 										<img src="./images/google.png" />
 									</div>
-									<p class="forText" >Don't have an account?<a href="register.cfm"> Register Here</a><br></p>
+									<p class="forText" >Don't have an account?<a href="register.cfm"> Register Here</a></p>
 								</div>
 							</div>
 						</div>
 					</div>
+					<cfset variables.errors="">
+					<cfif structKeyExists(form,"formSubmit")>
+						<cfinvoke component="components.login" method="authUser" returnvariable="result">
+							
+							<cfinvokeargument name="username" value="#form.userName#"/> 
+							<cfinvokeargument name="password" value="#form.password#"/> 
+						</cfinvoke>
+						<cfif result EQ "true">
+								<cflocation url="dashboard.cfm" addtoken="no"> 
+						<cfelse>
+							<cfset variables.errors="Enter a valid username or password">
+							<cfset StructDelete(Session, "stLoggedInUser")/>
+							<cfset  StructClear(Session) />
+						</cfif>
+					</cfif>
+					<div class="err text-center"><cfoutput> #errors# </cfoutput> </div>
 				</div>
 			</div>
-			<cfset variables.errors="">
-			<cfif structKeyExists(form,"formSubmit")>
-				<cfinvoke component="components.login" method="authUser" returnvariable="result">
-					<div class="err text-center">#errors# </div>
-					<cfinvokeargument name="username" value="#form.userName#"/> 
-					<cfinvokeargument name="password" value="#form.password#"/> 
-				</cfinvoke>
-				<cfdump var="#result#">
-				<cfif result EQ "true">
-						<cflocation url="dashboard.cfm" addtoken="no"> 
-				<cfelse>
-					<cfset variables.errors="Enter a valid username or password">
-					<cfset StructDelete(Session, "stLoggedInUser")/>
-					<cfset  StructClear(Session) />
-				</cfif>
-			</cfif>
-			
 		</div>
 	</body>
 </html>
@@ -104,13 +103,13 @@
 		let password= $('#password').val();
 		if(userName=='')
 		{
-			$('#userName').attr('placeholder',' User Name is required');
+			$('#userName').attr('placeholder',' Username required');
 			$('#userName').css('border-color','#F00');
 			return false;
 		}
 		else if(password=='')
 		{
-			$('#password').attr('placeholder','Password are required');
+			$('#password').attr('placeholder','Password required');
 			$('#password').css('border-color','#F00');
 			return false;
 		}

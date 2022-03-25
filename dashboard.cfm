@@ -39,9 +39,14 @@
 			</div>
 		</nav>
 		<div class="container">
-			<div class="container-fluid">
+			<div class="container-fluid"><br>
                 <div class="row">
-                    <div class="col-md-3 side-profile justify-content-center text-center classWhite" >
+                    <div class="col-md-12 boxForPrint">
+                        <button onclick="printDiv('contentToPrint')" style="float:right!important;"><i class="fa fa-2x fa-print"></i></button>
+                        <a href="printPdf.cfm" ><i class="fa fa-2x fa-file-pdf-o"></i></a>
+                        <a href="PrintExcel.cfm"><i class="fa fa-2x fa-file-excel-o"></i></a>
+                    </div>
+                    <div class="col-md-3 side-profile justify-content-center text-center classWhite" style="width:25%;">
                         <cfinvoke component="components.userDetails" method="authUser" returnvariable="result">
                         <img src="./images/no-profile.png" class="profile-section" />
                         <h2 class="nameTag">
@@ -64,29 +69,28 @@
                                                 <div class="form-group col-xs-3 col-md-3 classMargin">
                                                     <label  for="tittle">Title*</label>
                                                     <select  name="title" class="form-control w3-input" id="title" required>
-                                                        <option value="">Select</option>
-                                                        <option value="Mr">Mr</option>
-                                                        <option value="Mrs">Mrs</option>
-                                                        <option value="Miss">Miss</option>
-                                                        <option value="Ms">Ms</option>
+                                                        <option value="">-----Select-----</option>
+                                                        <option value="1">Mr</option>
+                                                        <option value="2">Mrs</option>
+                                                        <option value="3">Ms</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-xs-4 col-md-4 classMargin">
                                                     <label  for="firstName">First Name*</label>
-                                                    <input name="fname" type="text" id="firstName" class="form-control w3-input" required>
+                                                    <input name="fname" placeholder="Your First Name" type="text" id="firstName" class="form-control w3-input" required>
                                                 </div>
                                                 <div class="form-group col-xs-4 col-md-4 classMargin">
                                                     <label for="LastName">Last Name*</label>
-                                                    <input name="lname" type="text" id="LastName" class="form-control w3-input" required>
+                                                    <input name="lname"  placeholder="Your Last Name" type="text" id="LastName" class="form-control w3-input" required>
                                                 </div>
                                             </div>
                                             <div class="input-group mt-3">
                                                 <div class="form-group col-xs-6 col-md-6 classMargin">
                                                     <label for="gender">Gender*</label>
                                                     <select name="gender" class="form-control w3-input" id="gender" required>
-                                                        <option value="">Select</option>
-                                                        <option value="male">Male</option>
-                                                        <option value="female">Female</option>
+                                                        <option value="">-----Select-----</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-xs-5 col-md-5 classMargin">
@@ -102,38 +106,36 @@
                                             <div class="input-group mt-3">
                                                 <div class="form-group col-xs-6 col-md-6 classMargin">
                                                     <label for="address">Address</label>
-                                                    <input name="address" type="text" id="address" class="form-control w3-input" />
+                                                    <input name="address" placeholder="Your Address" type="text" id="address" class="form-control w3-input" />
                                                 </div>
                                                 <div class="form-group col-xs-5 col-md-5 classMargin">
                                                     <label for="street">Street</label>
-                                                    <input name="street" type="text" id="street" class="form-control w3-input" />
+                                                    <input name="street" placeholder="Your Street Name" type="text" id="street" class="form-control w3-input" />
                                                 </div>
                                             </div>
                                             <div class="input-group mt-3">
                                                 <div class="form-group col-xs-6 col-md-6 classMargin">
                                                     <label for="email">Email*</label>
-                                                    <input name="email" type="email" id="email" class="form-control w3-input" required/>
+                                                    <input name="email" placeholder="Your Email ID" type="email" id="email" class="form-control w3-input" required/>
                                                 </div>
                                                 <div class="form-group col-xs-5 col-md-5 classMargin">
                                                     <label for="phone">Phone*</label>
-                                                    <input name="phone" type="text" id="phone" class="form-control w3-input" required/>
+                                                    <input name="phone" placeholder="Your Phone No" type="text" id="phone" class="form-control w3-input" required/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div>
-                                                    <button type="submit" class="btn btn-success" style="float:right;">
-                                                        Register
-                                                    </button>
+                                                    <button type="submit" name="addContact" class="btn btn-success"> Create </button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                               
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
                     </div><!-- /.modal -->
-                    <div class="col-md-8 " id="tableDataView" style="background:#fff; margin-top:60px; margin-left: 20px;">
+                    <div class="col-md-8 forTableContent" id="contentToPrint" style="">
                         <cfinvoke component="components.userDetails"  method="selectContact" returnvariable="userData">
                         <table class="table" >
                             <thead>
@@ -154,96 +156,91 @@
                                         <td>#userData.firstName# #userData.lastName#</td>
                                         <td>#userData.email#</td>
                                         <td>#userData.phone#</td>
-                                        <td><button class="button-18" data-bs-toggle="modal" data-bs-target=".exampleModal-#userData.id#" >Edit</button></td>
-                                        <td><a href="delete.cfm?id=#userData.id#" class="button-18">Delete</a></td>
+                                        <td><button class="button-18" data-bs-toggle="modal" data-bs-target="##exampleModal-#userData.id#" >Edit</button></td>
+                                        <td><a href="deleteAction.cfm?id=#userData.id#" class="button-18">Delete</a></td>
                                         <td><button class="button-18" data-bs-toggle="modal" data-bs-target=".viewModal-#userData.id#">View</button></td>
-                                        <div class="modal fade bd-example-modal-lg exampleModal-#userData.id#" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div id="exampleModal-#userData.id#" class="modal fade">
                                             <div class="modal-dialog modal-lg" role="document">
                                                 <form method="post" action="" enctype="multipart/form-data" >
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row">
-                                                                <div class="col-md-12">
-                                                                    <h3>Personal Contact</h3>
-                                                                    <hr>
-                                                                </div>
-                                                                <div class="col-md-2">
-                                                                    <label  for="tittle">Title*</label>
-                                                                    <select  name="title" class="form-control" id="title" required>
-                                                                        <option value="">Select</option>
-                                                                        <option <cfif userData.title eq "Mr" >selected</cfif> value="Mr">Mr</option>
-                                                                        <option <cfif userData.title eq "Mrs" >selected</cfif> value="Mrs">Mrs</option>
-                                                                        <option <cfif userData.title eq "Miss" >selected</cfif> value="Miss">Miss</option>
-                                                                        <option <cfif userData.title eq "Ms" >selected</cfif> value="Ms">Ms</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-md-5">
-                                                                    <label  for="firstName">First Name*</label>
-                                                                    <input name="fname" value="#userData.firstName#" type="text" id="firstName" class="form-control" required>
-                                                                </div>
-                                                                <div class="col-md-5">
-                                                                    <label for="LastName">Last Name*</label>
-                                                                    <input name="lname" value="#userData.lastName#" type="text" id="LastName" class="form-control" required>
-                                                                </div>
+                                                    <div class="modal-content tempBackground" >
+                                                        <div class="col-md-8 classWhite classMargin">
+                                                            <div class="modal-header">
+                                                                <h5 class="boxHead">UPDATE CONTACT</h5><br>
                                                             </div>
-                                                            <div class="row mt-4">
-                                                                <div class="col-md-6">
-                                                                    <label for="gender">Gender*</label>
-                                                                    <select name="gender" class="form-control" id="gender" required>
-                                                                        <option value="">Select</option>
-                                                                        <option <cfif userData.gender eq "male" >selected</cfif> value="male">Male</option>
-                                                                        <option <cfif userData.gender eq "female" >selected</cfif> value="female">Female</option>
-                                                                    </select>
+                                                            <div class="modal-body">
+                                                                <h5  class="forHr">Personal Contact</h5>
+                                                                <div class="input-group mt-3">
+                                                                    <div class="form-group col-xs-3 col-md-3 classMargin">
+                                                                        <label  for="tittle">Title*</label>
+                                                                        <select  name="title" class="form-control w3-input" id="title" required>
+                                                                            <option value="">Select</option>
+                                                                            <option <cfif userData.title eq "1" >selected</cfif> value="1">Mr</option>
+                                                                            <option <cfif userData.title eq "2" >selected</cfif> value="2">Mrs</option>
+                                                                            <option <cfif userData.title eq "3" >selected</cfif> value="3">Ms</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group col-xs-4 col-md-4 classMargin">
+                                                                        <label  for="firstName">First Name*</label>
+                                                                        <input name="fname" value="#userData.firstName#" type="text" id="firstName" class="form-control" required>
+                                                                    </div>
+                                                                    <div class="form-group col-xs-4 col-md-4 classMargin">
+                                                                        <label for="LastName">Last Name*</label>
+                                                                        <input name="lname" value="#userData.lastName#" type="text" id="LastName" class="form-control" required>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="DOB">Date Of Birth*</label>
-                                                                    <input name="dob" value="#userData.dob#" type="date" id="DOB" class="form-control" required>
+                                                                <div class="input-group mt-3">
+                                                                    <div class="form-group col-xs-6 col-md-6 classMargin">
+                                                                        <label for="gender">Gender*</label>
+                                                                        <select name="gender" class="form-control" id="gender" required>
+                                                                            <option value="">Select</option>
+                                                                            <option <cfif userData.gender eq "1" >selected</cfif> value="1">Male</option>
+                                                                            <option <cfif userData.gender eq "2" >selected</cfif> value="2">Female</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group col-xs-5 col-md-5 classMargin">
+                                                                        <label for="DOB">Date Of Birth*</label>
+                                                                        <input name="dob" value="#userData.dob#" type="date" id="DOB" class="form-control" required>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row mt-4">
-                                                                <div class="col-md-6">
+                                                                <div class="form-group">
                                                                     <label for="pImage">Upload Photo</label>
                                                                     <input name="file" type="file" id="pImage" class="form-control" /><img src="#userData.image#" width="100px" height="100px" />
                                                                     <input type="hidden" name="old_file" value="#userData.image#" />
                                                                 </div>
-                                                            </div>
-                                                            <div class="row mt-4">
-                                                                <div class="col-md-12">
-                                                                    <h3>Contact Details</h3>
-                                                                    <hr>
+                                                                <br><h5  class="forHr"> Contact Details</h5>
+                                                                <div class="input-group mt-3">
+                                                                    <div class="form-group col-xs-6 col-md-6 classMargin">
+                                                                        <label for="address">Address</label>
+                                                                        <input name="address" value="#userData.address#" type="text" id="address" class="form-control" />
+                                                                    </div>
+                                                                    <div class="form-group col-xs-5 col-md-5 classMargin">
+                                                                        <label for="street">Street</label>
+                                                                        <input name="street" value="#userData.street#" type="text" id="street" class="form-control" />
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="address">Address</label>
-                                                                    <input name="address" value="#userData.address#" type="text" id="address" class="form-control" />
+                                                                <div class="input-group mt-3">
+                                                                    <div class="form-group col-xs-6 col-md-6 classMargin">
+                                                                        <label for="email">Email*</label>
+                                                                        <input name="email" value="#userData.email#" type="email" id="email" class="form-control" required/>
+                                                                    </div>
+                                                                    <div class="form-group col-xs-5 col-md-5 classMargin">
+                                                                        <label for="phone">Phone*</label>
+                                                                        <input name="phone" value="#userData.phone#" type="text" id="phone" class="form-control" required/>
+                                                                    </div>
+                                                                    <input type="hidden" name="id" value="#userData.id#" />
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="street">Street</label>
-                                                                    <input name="street" value="#userData.street#" type="text" id="street" class="form-control" />
+                                                                <div class="form-group">
+                                                                    <div>
+                                                                        <button name="updateContact" type="submit" class="btn btn-primary">Update</button>
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="email">Email*</label>
-                                                                    <input name="email" value="#userData.email#" type="email" id="email" class="form-control" required/>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="phone">Phone*</label>
-                                                                    <input name="phone" value="#userData.phone#" type="text" id="phone" class="form-control" required/>
-                                                                </div>
-                                                            </div>
-                                                            <input type="hidden" name="id" value="#userData.id#" />
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button name="updateContact" type="submit" class="btn btn-primary">Save</button>
+                                                            </form>
                                                         </div>
                                                     </div>
-                                                </form>
-                                            </div>
-                                        </div>
+                                                </div><!-- /.modal-content -->
+                                            </div><!-- /.modal-dialog -->
+                                        </div><!-- /.modal -->
                                         <div class="modal fade bd-example-modal-lg viewModal-#userData.id#"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-md" role="document">
                                                 <form method="post" action="" enctype="multipart/form-data" >
@@ -316,7 +313,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -331,9 +328,24 @@
             </div>
             <cfif StructKeyExists(Form,'updateContact')>
                 <cfinvoke component="components.userDetails"  method="updateContact" returnvariable="result">
+                </cfinvoke>
+            </cfif>
+            <cfif StructKeyExists(Form,'addContact')>
+                <cfinvoke component="components.userDetails"  method="addContact" returnvariable="result">
                 </cfinvoke >
             </cfif>
         </div>
     </body> 
 </html>
-
+<script>
+   function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+   
+    document.body.innerHTML = printContents;
+   
+    window.print();
+   
+    document.body.innerHTML = originalContents;
+   }
+</script>

@@ -38,7 +38,7 @@
             <cfset img = "#form.old_file#">
         </cfif>
 
-        <cfquery datasource="cfsample">
+        <cfquery name="updateData">
             UPDATE contactNumbers 
             SET title = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.title#">, 
                 firstName = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.fname#">,
@@ -53,6 +53,14 @@
             WHERE id = <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#form.id#"> 
         </cfquery>
         <cflocation url="./dashboard.cfm" >
+    </cffunction>
+
+    <cffunction name="deleteQuery" output="false" access="public">
+        <cfquery name="DeleteData"> 
+                DELETE FROM contactNumbers 
+                WHERE id = #URL.id# 
+        </cfquery> 
+        <cfreturn>
     </cffunction>
 
 </cfcomponent>
