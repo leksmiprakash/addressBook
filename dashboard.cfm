@@ -29,7 +29,7 @@
 					</ul>
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link active" href="##"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</a>
+							<a class="nav-link active" href="logout.cfm"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="##">&nbsp;</a>

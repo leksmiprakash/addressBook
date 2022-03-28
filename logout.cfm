@@ -6,4 +6,4 @@
 <cfset StructDelete(Session, "stLoggedInUser")/>
 <cfset  StructClear(Session) />
 <cfdump var="#session#">
-<cflocation url = "task27.cfm">
+<cflocation url = "dashboard.cfm">
