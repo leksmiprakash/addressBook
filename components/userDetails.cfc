@@ -14,6 +14,44 @@
         <cfreturn usersData>
     </cffunction>
 
+    <cffunction  name="createContact" access="remote">
+        
+        
+
+        <cfif form.file != "">
+            <cffile action="upload"
+                fileField="file"
+                destination="F:\ColdFusion2021\cfusion\wwwroot\addressBook\images\"
+                nameconflict="makeunique"
+                result="img">
+            <cfset img = "images/#img.clientFile#">
+        <cfelse>
+            <cfset img = "">
+        </cfif>
+        <cfquery result="result">
+            INSERT INTO contactNumbers (user_id, title, firstName, lastName, gender, dob, image, address, street, email, phone)
+            VALUES (
+                <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="CF_SQL_INTEGER">,
+                <cfqueryparam value="#Form.title#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.fname#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.lname#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.gender#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.dob#" cfsqltype="cf_sql_date">,
+                <cfqueryparam value="#img#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.address#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.street#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.email#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#Form.phone#" cfsqltype="cf_sql_varchar">
+            )
+        </cfquery>
+        <cfif result.generatedkey>
+            <cflocation url="./dashboard.cfm" addtoken="no">
+        <cfelse>
+            <cfset variable = "Please try after some time...">
+            <cfreturn variable>
+        </cfif>
+    </cffunction>
+
     <cffunction  name="updateContact" access="remote">
         <cfargument name="title" type="string"/>
         <cfargument name="fname" type="string"/>
@@ -37,7 +75,6 @@
         <cfelse>
             <cfset img = "#form.old_file#">
         </cfif>
-
         <cfquery name="updateData">
             UPDATE contactNumbers 
             SET title = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.title#">, 

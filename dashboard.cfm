@@ -63,7 +63,7 @@
                                         <h5 class="boxHead">CREATE CONTACT</h5><br>
                                     </div>
                                     <div class="modal-body">
-                                        <form role="form" method="POST" action="">
+                                        <form role="form" method="POST" action="" enctype="multipart/form-data">
                                             <h5  class="forHr">Personal Contact</h5>
                                             <div class="input-group mt-3">
                                                 <div class="form-group col-xs-3 col-md-3 classMargin">
@@ -331,7 +331,7 @@
                 </cfinvoke>
             </cfif>
             <cfif StructKeyExists(Form,'addContact')>
-                <cfinvoke component="components.userDetails"  method="addContact" returnvariable="result">
+                <cfinvoke component="components.userDetails"  method="createContact" returnvariable="result">
                 </cfinvoke >
             </cfif>
         </div>
