@@ -1,31 +1,75 @@
 
+function Validation(){ 
+    let userName= $('#userName').val();
+    let password= $('#password').val();
+    if(userName=='')
+    {
+        $('#userName').attr('placeholder',' Username required');
+        $('#userName').css('border-color','#F00');
+        return false;
+    }
+    else if(password=='')
+    {
+        $('#password').attr('placeholder','Password required');
+        $('#password').css('border-color','#F00');
+        return false;
+    }
+    else{
+        return true;
+    }                                       
+}
+function ValidationSignup(){ 
+    let fullName= $('#fullName').val();
+    let email   = $('#email').val();
+    let userName= $('#userName').val();
+    let password= $('#password').val();
+    let cpassword= $('#cpassword').val();
 
-function validateform(){  
-    var name= document.forms["login"]["userName"].value;
-    var password= document.forms["login"]["password"].value;
-    if (name==null || name==""){  
-      alert("UserName can't be blank");  
-      return false;  
+    if(fullName=='')
+    {
+        $('#fullName').attr('placeholder','Full Name required');
+        $('#fullName').css('border-color','#F00');
+        return false;
     }
-    else if(password==null || password=="" || password.length<6){  
-      alert("Password cannot be null and must be at least 6 characters long.");  
-      return false;  
-    }  
-}  
-function validateSignup(){  
-    var name= document.forms["signup"]["userName"].value;
-    var password= document.forms["signup"]["password"].value;
-    var cPassword= document.forms["signup"]["cpassword"].value;
-    if (name==null || name==""){  
-        alert("UserName can't be blank");  
-        return false;  
+    if(email=='')
+    {
+        $('#email').attr('placeholder','Email required');
+        $('#email').css('border-color','#F00');
+        return false;
     }
-    else if(password==null || password=="" || password.length<6){  
-        alert("Password cannot be null and must be at least 6 characters long.");  
-        return false;  
-    }  
-    else if(password!= cPassword){  
-        alert("Password and confirm password doesnt match.");  
-        return false;  
-    }  
-}  
+    if(userName=='')
+    {
+        $('#userName').attr('placeholder',' Username required');
+        $('#userName').css('border-color','#F00');
+        return false;
+    }
+    else if(password=='')
+    {
+        $('#password').attr('placeholder','Password required');
+        $('#password').css('border-color','#F00');
+        return false;
+    }
+    else if(cpassword!=password)
+    {
+        $('#password').val('');
+        $('#cpassword').val('');
+        $('#password').attr('placeholder','Password and confirm password should be equal');
+        $('#cpassword').attr('placeholder','Password and confirm password should be equal');
+        $('#password').css('border-color','#F00');
+        $('#cpassword').css('border-color','#F00');
+        return false;
+    }
+    else{
+        return true;
+    }                                       
+}		
+function printDiv(divName) {
+    var printContents = document.getElementById(divName).innerHTML;
+    var originalContents = document.body.innerHTML;
+   
+    document.body.innerHTML = printContents;
+   
+    window.print();
+   
+    document.body.innerHTML = originalContents;
+}

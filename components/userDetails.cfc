@@ -15,9 +15,16 @@
     </cffunction>
 
     <cffunction  name="createContact" access="remote">
+        <cfargument name="title" type="string"/> 
+        <cfargument name="fname" type="string"/> 
+        <cfargument name="lname" type="string"/> 
+        <cfargument name="gender" type="string"/>
+        <cfargument name="dob" type="string"/> 
+        <cfargument name="address" type="string"/> 
+        <cfargument name="street" type="string"/> 
+        <cfargument name="email" type="string"/> 
+        <cfargument name="phone" type="string"/> 
         
-        
-
         <cfif form.file != "">
             <cffile action="upload"
                 fileField="file"
@@ -32,16 +39,16 @@
             INSERT INTO contactNumbers (user_id, title, firstName, lastName, gender, dob, image, address, street, email, phone)
             VALUES (
                 <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="CF_SQL_INTEGER">,
-                <cfqueryparam value="#Form.title#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.fname#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.lname#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.gender#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.dob#" cfsqltype="cf_sql_date">,
+                <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.fname#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.lname#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.gender#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.dob#" cfsqltype="cf_sql_date">,
                 <cfqueryparam value="#img#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.address#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.street#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.email#" cfsqltype="cf_sql_varchar">,
-                <cfqueryparam value="#Form.phone#" cfsqltype="cf_sql_varchar">
+                <cfqueryparam value="#arguments.address#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.street#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.email#" cfsqltype="cf_sql_varchar">,
+                <cfqueryparam value="#arguments.phone#" cfsqltype="cf_sql_varchar">
             )
         </cfquery>
         <cfif result.generatedkey>
@@ -53,17 +60,17 @@
     </cffunction>
 
     <cffunction  name="updateContact" access="remote">
-        <cfargument name="title" type="string"/>
-        <cfargument name="fname" type="string"/>
-        <cfargument name="lname" type="string"/>
+        <cfargument name="title" type="string"/> 
+        <cfargument name="fname" type="string"/> 
+        <cfargument name="lname" type="string"/> 
         <cfargument name="gender" type="string"/>
-        <cfargument name="dob" type="date"/>
-        <cfargument name="address" type="string"/>
-        <cfargument name="street" type="string"/>
-        <cfargument name="email" type="string"/>
-        <cfargument name="phone" type="string"/>
-        <cfargument name="old_file" type="string"/>
-        <cfargument name="id" type="integer"/>
+        <cfargument name="dob" type="string"/> 
+        <cfargument name="old_file" type="string"/> 
+        <cfargument name="address" type="string"/> 
+        <cfargument name="street" type="string"/> 
+        <cfargument name="email" type="string"/> 
+        <cfargument name="phone" type="string"/> 
+		<cfargument name="id" type="integer"/>
 
         <cfif form.file != "">
             <cffile action="upload"
@@ -77,17 +84,17 @@
         </cfif>
         <cfquery name="updateData">
             UPDATE contactNumbers 
-            SET title = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.title#">, 
-                firstName = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.fname#">,
-                lastName = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.lname#">,
-                gender = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.gender#">,
-                dob = <cfqueryparam CFSQLType="cf_sql_date" value="#form.dob#">,
+            SET title = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.title#">, 
+                firstName = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.fname#">,
+                lastName = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.lname#">,
+                gender = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.gender#">,
+                dob = <cfqueryparam CFSQLType="cf_sql_date" value="#arguments.dob#">,
                 image = <cfqueryparam CFSQLType="cf_sql_varchar" value="#img#">,
-                address = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.address#">,
-                street = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.street#">,
-                email = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.email#">,
-                phone = <cfqueryparam CFSQLType="cf_sql_varchar" value="#form.phone#">
-            WHERE id = <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#form.id#"> 
+                address = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.address#">,
+                street = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.street#">,
+                email = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.email#">,
+                phone = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.phone#">
+            WHERE id = <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#arguments.id#"> 
         </cfquery>
         <cflocation url="./dashboard.cfm" >
     </cffunction>
