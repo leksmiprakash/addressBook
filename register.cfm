@@ -5,7 +5,19 @@
 <cfparam name="form.userName" default="">
 <cfparam name="form.password" default="">
 <cfparam name="form.cpassword" default="">
-
+<cfif StructKeyExists(Form,'formSubmit')>
+	<cfset result = ArrayNew(1) />
+	<cfinvoke component="components.register" method="registerQuery" returnvariable="result">
+		<cfinvokeargument name="fullName" value="#form.fullName#"/> 
+		<cfinvokeargument name="email" value="#form.email#"/> 
+		<cfinvokeargument name="userName" value="#form.userName#"/> 
+		<cfinvokeargument name="password" value="#form.password#"/> 
+		<cfinvokeargument name="cpassword" value="#form.cpassword#"/> 
+	</cfinvoke>
+	<div id="message" class="alert alert-primary" role="alert">
+		<cfoutput>#result[1]#</cfoutput>
+	</div>
+</cfif>
 <div class="" style="background:#d8e5f1;">
 <div class="container-fluid">
 	<div class="row">
@@ -47,8 +59,4 @@
 		</div>
 	</div>
 </div>
-<cfif StructKeyExists(Form,'formSubmit')>
-	<cfinvoke component="components.register" method="registerQuery" returnvariable="result">
-	<cfoutput>Inserted Successfully</cfoutput>
-</cfif>
 <cfinclude  template = "include/footer.cfm"  runOnce = "true">   

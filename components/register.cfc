@@ -1,27 +1,48 @@
 <cfcomponent displayname="Insert" hint="Insert user">
     <cfif IsDefined("form.registerSubmit")>
         <cffunction name="registerQuery" output="false" access="public">
-            <cfquery name="local.regUsers"> 
-                INSERT INTO usersTable (fullName,email,userName,password)
-                VALUES ('#Form.fullName#','#Form.email#','#Form.userName#', '#hash(Form.password)#') 
-            </cfquery> 
-            <cfreturn>
+            <cfargument name="fullName" type="string"/> 
+            <cfargument name="email" type="string"/> 
+            <cfargument name="userName" type="string"/> 
+            <cfargument name="password" type="string"/>
+            <cfargument name="cpassword" type="string"/>
+            <cfset messageArray = ArrayNew(1) />
+            <cfif arguments.fullName eq "">
+                <cfset ArrayAppend(messageArray, "Please enter the name") />
+            </cfif>
+            <cfif arguments.email eq "">
+                <cfset ArrayAppend(messageArray, "Please enter the email") />
+            </cfif>
+            <cfif arguments.userName eq "">
+                <cfset ArrayAppend(messageArray, "Please enter the userName") />
+            </cfif>
+            <cfif arguments.password eq "">
+                <cfset ArrayAppend(messageArray, "Please enter the password") />
+            </cfif>
+            <cfif arguments.password neq arguments.cpassword>
+                <cfset ArrayAppend(messageArray, "Password and confirm password must be equal") />
+            </cfif>
+            <cfquery name="emailcheck">
+                select email 
+                from usersTable
+                where email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" >
+            </cfquery>
+            <cfif emailcheck.recordcount gte 1 >
+                <cfset  ArrayAppend(messageArray, "Email already exists")  />
+            </cfif>
+            <cfif ArrayIsEmpty(messageArray)>
+                <cfquery name="local.regUsers"> 
+                    INSERT INTO usersTable (fullName,email,userName,password)
+                    VALUES (
+                        <cfqueryparam value="#arguments.fullName#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#arguments.email#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#arguments.userName#" cfsqltype="cf_sql_varchar">,
+                        <cfqueryparam value="#hash(arguments.password)#" cfsqltype="cf_sql_varchar">
+                    ) 
+                </cfquery> 
+                <cfset  ArrayAppend(messageArray, "Inserted successfully")  />
+            </cfif>
+            <cfreturn messageArray>
         </cffunction>
     </cfif>
-    <cffunction name="getUser" access="remote" returnFormat="JSON">
-    <cfargument name="EmailId" type="any" required="true">
-       <cfquery name="getMail" >
-         SELECT email
-                FROM usersTable 
-            WHERE email = "#emailId#"             
-        </cfquery> 
-       <cfset cfcResults = getMail.RecordCount>
-        <cfif cfcResults NEQ 0>
-            <cfset cfcResults1 = false>  
-        <cfelse>
-            <cfset cfcResults1 = true>  
-                    
-        </cfif>
-        <cfreturn cfcResults1> 
-    </cffunction>
 </cfcomponent>

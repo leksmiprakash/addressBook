@@ -1,7 +1,15 @@
 <cfinclude  template = "include/header.cfm"  runOnce = "true">
 <cfparam name="form.userName" default="">
 <cfparam name="form.password" default="">
-
+<cfif structKeyExists(form,"formSubmit")>
+	<cfinvoke component="components.login" method="authUser" returnvariable="result">
+		<cfinvokeargument name="username" value="#form.userName#"/> 
+		<cfinvokeargument name="password" value="#form.password#"/> 
+	</cfinvoke>
+	<div id="message" class="alert alert-primary" role="alert">
+		<cfoutput>#result[1]#</cfoutput>
+	</div>
+</cfif>
 <div class="" >
 	<div class="container-fluid">
 		<div class="row">
@@ -37,22 +45,6 @@
 					</div>
 				</div>
 			</div>
-			<cfset variables.errors="">
-			<cfif structKeyExists(form,"formSubmit")>
-				<cfinvoke component="components.login" method="authUser" returnvariable="result">
-					
-					<cfinvokeargument name="username" value="#form.userName#"/> 
-					<cfinvokeargument name="password" value="#form.password#"/> 
-				</cfinvoke>
-				<cfif result EQ "true">
-						<cflocation url="dashboard.cfm" addtoken="no"> 
-				<cfelse>
-					<cfset variables.errors="Enter a valid username or password">
-					<cfset StructDelete(Session, "stLoggedInUser")/>
-					<cfset  StructClear(Session) />
-				</cfif>
-			</cfif>
-			<div class="err text-center"><cfoutput> #errors# </cfoutput> </div>
 		</div>
 	</div>
 </div>

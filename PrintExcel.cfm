@@ -3,9 +3,14 @@
 <cfoutput query="userData">
     <cfset fullname = userData.firstName & ' ' &userData.lastName />
     <cfset address = userData.address & ","& userData.street />
+    <cfif userData.gender == 1>
+        <cfset gender = "Male" />
+    <cfelse>
+        <cfset gender = "Female" /> 
+    </cfif>
     <cfset queryAddRow(q)>
     <cfset querySetCell(q, "Name", fullname)>
-    <cfset querySetCell(q, "Gender", userData.gender)>
+    <cfset querySetCell(q, "Gender", gender)>
     <cfset querySetCell(q, "DOB", userData.dob)>
     <cfset querySetCell(q, "Address", address)>
     <cfset querySetCell(q, "Email", userData.email)>

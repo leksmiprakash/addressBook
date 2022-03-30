@@ -225,7 +225,11 @@ body{
     margin-left: 20px; 
     width:73%;
 }
-
+.forImage{
+  width:250px;
+  height:250px;
+  padding-top: 50px;
+}
 
 
 

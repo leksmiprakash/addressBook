@@ -1,9 +1,17 @@
 <cfcomponent displayname="Insert" hint="Insert Different string">
-    <cffunction name="authUser" access="public" returnType="string" output="true">
+    <cffunction name="authUser" access="public"  output="true">
         <cfargument name="userName" required="true">
         <cfargument name="password" required="true">
-           <cfset variables.isUserLoggedIn = "">
-           <cfquery name="checkUser"  result="logResult">
+        <cfset messageArray = ArrayNew(1) />
+        <cfif arguments.userName eq "">
+            <cfset ArrayAppend(messageArray, "Please enter the username") />
+        </cfif>
+        <cfif arguments.password eq "">
+            <cfset ArrayAppend(messageArray, "Please enter the password") />
+        </cfif>
+        <cfset variables.isUserLoggedIn = "">
+        <cfif ArrayIsEmpty(messageArray)>
+            <cfquery name="checkUser"  result="logResult">
                 SELECT user_id,userName
                 FROM usersTable
                 WHERE (usersTable.userName = <cfqueryparam value="#arguments.userName#" cfsqltype="cf_sql_varchar" 
@@ -11,10 +19,14 @@
             </cfquery>
             <cfif checkUser.recordCount EQ 1>      
                 <cfset session.stLoggedInUser = {'loggedin'=true,'userName' = checkUser.userName, 'userID' = checkUser.user_id} />     
-                <cfset variables.isUserLoggedIn = true>
+                <cfset ArrayAppend(messageArray, "Logeed In") />
+                <cflocation url="dashboard.cfm" addtoken="no"> 
             <cfelse>
-                <cfset variables.isUserLoggedIn = false>
+                <cfset ArrayAppend(messageArray, "Enter a valid username or password") />
+                <cfset StructDelete(Session, "stLoggedInUser")/>
+				<cfset  StructClear(Session) />
             </cfif>
-        <cfreturn variables.isUserLoggedIn>    
+        </cfif>
+        <cfreturn messageArray>    
     </cffunction>
 </cfcomponent>
