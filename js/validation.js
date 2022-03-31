@@ -65,44 +65,68 @@ function ValidationSignup(){
 }		
 
 function ValidationAddForm(){ 
-    let fullName= $('#fullName').val();
-    let email   = $('#email').val();
-    let userName= $('#userName').val();
-    let password= $('#password').val();
-    let cpassword= $('#cpassword').val();
+    let tittle= $('#Contacttitle').val();
+    let fname   = $('#fname').val();
+    let lname= $('#lname').val();
+    let gender= $('#gender').val();
+    let dob= $('#dob').val();
+    let address= $('#Contactaddress').val();
+    let street= $('#Contactstreet').val();
+    let email= $('#Contactemail').val();
+    let phone= $('#Contactphone').val();
 
-    if(fullName=='')
+    if(tittle=='')
     {
-        $('#fullName').attr('placeholder','Full Name required');
-        $('#fullName').css('border-color','#F00');
+        $('#Contacttitle').attr('placeholder','Full Name required');
+        $('#Contacttitle').css('border-color','#F00');
         return false;
     }
-    if(email=='')
+    else if(fname=='')
     {
-        $('#email').attr('placeholder','Email required');
-        $('#email').css('border-color','#F00');
+        $('#fname').attr('placeholder',' First name required');
+        $('#fname').css('border-color','#F00');
         return false;
     }
-    if(userName=='')
+    else if(lname=='')
     {
-        $('#userName').attr('placeholder',' Username required');
-        $('#userName').css('border-color','#F00');
+        $('#lname').attr('placeholder','Last Name required');
+        $('#lname').css('border-color','#F00');
         return false;
     }
-    else if(password=='')
+    else if(gender=='')
     {
-        $('#password').attr('placeholder','Password required');
-        $('#password').css('border-color','#F00');
+        $('#Contactgender').attr('placeholder',' Gender required');
+        $('#Contactgender').css('border-color','#F00');
         return false;
     }
-    else if(cpassword!=password)
+    else if(dob=='')
     {
-        $('#password').val('');
-        $('#cpassword').val('');
-        $('#password').attr('placeholder','Password and confirm password should be equal');
-        $('#cpassword').attr('placeholder','Password and confirm password should be equal');
-        $('#password').css('border-color','#F00');
-        $('#cpassword').css('border-color','#F00');
+        $('#dob').attr('placeholder','DOB required');
+        $('#dob').css('border-color','#F00');
+        return false;
+    }
+    else if(address=='')
+    {
+        $('#Contactaddress').attr('placeholder','Address required');
+        $('#Contactaddress').css('border-color','#F00');
+        return false;
+    }
+    else if(street=='')
+    {
+        $('#Contactstreet').attr('placeholder','Street required');
+        $('#Contactstreet').css('border-color','#F00');
+        return false;
+    }
+    else if(email=='')
+    {
+        $('#Contactemail').attr('placeholder','Email required');
+        $('#Contactemail').css('border-color','#F00');
+        return false;
+    }
+    else if(phone=='')
+    {
+        $('#Contactphone').attr('placeholder','Email required');
+        $('#Contactphone').css('border-color','#F00');
         return false;
     }
     else{
@@ -119,3 +143,6 @@ function printDiv(divName) {
    
     document.body.innerHTML = originalContents;
 }
+setTimeout(function() {
+    $('#message').fadeOut('fast');
+}, 3000); // <-- time in milliseconds

@@ -7,7 +7,7 @@
         <cfreturn usersData>
     </cffunction>
 
-    <cffunction  name="selectContact" access="public">
+    <cffunction  name="selectContact" access="public" returnType="any">
         <cfquery name="usersData">
             SELECT * FROM contactNumbers WHERE user_id= #session.stLoggedInUser.userID#
         </cfquery>
@@ -58,9 +58,9 @@
                 destination="F:\ColdFusion2021\cfusion\wwwroot\addressBook\images\"
                 nameconflict="makeunique"
                 result="img">
-            <cfset img = "images/#img.clientFile#">
+            <cfset img = "#img.serverFile#">
         <cfelse>
-            <cfset ArrayAppend(messageArray, "Please insert the image") />
+            <cfset img = "no-profile.png">
         </cfif>
         <cfif ArrayIsEmpty(messageArray)>
             <cfquery result="result">
@@ -90,12 +90,13 @@
         <cfargument name="lname" type="string"/> 
         <cfargument name="gender" type="string"/>
         <cfargument name="dob" type="string"/> 
+        <cfargument name="file" type="string"/> 
         <cfargument name="old_file" type="string"/> 
         <cfargument name="address" type="string"/> 
         <cfargument name="street" type="string"/> 
         <cfargument name="email" type="string"/> 
         <cfargument name="phone" type="string"/> 
-		<cfargument name="id" type="integer"/>
+		<cfargument name="updatedata" type="integer"/>
         <cfset messageArray = ArrayNew(1) />
         <cfif arguments.title eq "">
             <cfset ArrayAppend(messageArray, "Please enter the title") />
@@ -124,15 +125,15 @@
         <cfif arguments.phone eq "">
             <cfset ArrayAppend(messageArray, "Please enter the phone") />
         </cfif>
-        <cfif form.file != "">
+        <cfif arguments.file != "">
             <cffile action="upload"
                 fileField="file"
                 destination="F:\ColdFusion2021\cfusion\wwwroot\addressBook\images\"
                 nameconflict="makeunique"
                 result="img">
-            <cfset img = "images/#img.clientFile#">
+            <cfset variables.img = "#img.serverFile#">
         <cfelse>
-            <cfset img = "#form.old_file#">
+            <cfset variables.img = "#arguments.old_file#">
         </cfif>
         <cfif ArrayIsEmpty(messageArray)>
             <cfquery name="updateData">
@@ -142,14 +143,14 @@
                     lastName = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.lname#">,
                     gender = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.gender#">,
                     dob = <cfqueryparam CFSQLType="cf_sql_date" value="#arguments.dob#">,
-                    image = <cfqueryparam CFSQLType="cf_sql_varchar" value="#img#">,
+                    image = <cfqueryparam CFSQLType="cf_sql_varchar" value="#variables.img#">,
                     address = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.address#">,
                     street = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.street#">,
                     email = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.email#">,
                     phone = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.phone#">
-                WHERE id = <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#arguments.id#"> 
+                WHERE id = <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#arguments.updatedata#"> 
             </cfquery>
-            <cflocation url="./dashboard.cfm" >
+            <cflocation url="./dashboard.cfm" addtoken="no">
             <cfset  ArrayAppend(messageArray, "Updated successfully")  />
         </cfif>
         <cfreturn messageArray>
@@ -162,5 +163,11 @@
         </cfquery> 
         <cfreturn>
     </cffunction>
-
+    <cffunction name="displaydata" access="remote" returnType="any" returnFormat="JSON" output="false">
+          <cfargument name="editid" required="true">
+          <cfquery name = "local.getcontactbyid"    >
+               select *  from contactNumbers where id=<cfqueryparam value="#arguments.editid#"  cfsqltype="cf_sql_integer">      
+          </cfquery>
+          <cfreturn getcontactbyid> 
+     </cffunction>
 </cfcomponent>

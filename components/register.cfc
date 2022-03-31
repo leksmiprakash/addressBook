@@ -27,8 +27,16 @@
                 from usersTable
                 where email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" >
             </cfquery>
+            <cfquery name="userCheck">
+                select userName 
+                from usersTable
+                where userName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userName#" >
+            </cfquery>
             <cfif emailcheck.recordcount gte 1 >
                 <cfset  ArrayAppend(messageArray, "Email already exists")  />
+            </cfif>
+            <cfif userCheck.recordcount gte 1 >
+                <cfset  ArrayAppend(messageArray, "UserName already exists")  />
             </cfif>
             <cfif ArrayIsEmpty(messageArray)>
                 <cfquery name="local.regUsers"> 
