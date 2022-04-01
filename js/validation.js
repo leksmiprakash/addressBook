@@ -146,3 +146,45 @@ function printDiv(divName) {
 setTimeout(function() {
     $('#message').fadeOut('fast');
 }, 3000); // <-- time in milliseconds
+
+$(document).on('click', '.editbtn', function() {
+    $("#boxHead").html("EDIT CONTACT");
+    var _contactid = $(this).data('conid');
+    $.ajax({
+        type: "post",
+        url: 'components/userDetails.cfc?method=displaydata',
+        data: {
+            editid: _contactid
+        },
+        beforeSend: function() {
+            $("#updateContact").attr("disabled", true);
+        },
+        success: function(response) {
+            p = JSON.parse(response);
+            $("#updatedata").val(p.DATA[0][0]);
+            $("#Contacttitle").val(p.DATA[0][2]).change();
+            $("#fname").val(p.DATA[0][3]);
+            $("#lname").val(p.DATA[0][4]);
+            $("#Contactgender").val(p.DATA[0][5]).change();
+            let dateStr = new Date(p.DATA[0][6]);
+            var now = new Date(p.DATA[0][6]);
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            $('#dob').val(today);
+            $("#Contactemail").val(p.DATA[0][10]);
+            $("#Contactphone").val(p.DATA[0][11]);
+            $("#Contactaddress").val(p.DATA[0][8]);
+            $("#Contactstreet").val(p.DATA[0][9]);
+            $("#old_file").val(p.DATA[0][7]);
+            if (p.DATA[0][7] == "no-profile.png") {
+                var newSrc = "./images/" + p.DATA[0][7];
+            }
+            else {
+                var newSrc = "./images/" + p.DATA[0][7];
+            }
+            $("#imageDisplay").attr('src', newSrc);
+            $("#updateContact").removeAttr("disabled");
+        }
+    });
+});

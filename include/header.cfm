@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <cfheader name="cache-control" value="no-cache, no-store, must-revalidate"> 
-        <cfheader name="pragma" value="no-cache">
-        <cfheader name="expires" value="#getHttpTimeString(now())#">
+        
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <cfheader name="cache-control" value="no-cache, no-store, must-revalidate"> 
+        <cfheader name="pragma" value="no-cache">
+        <cfheader name="expires" value="#getHttpTimeString(now())#">
         <title>Document</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" >
         <link href="css/style.css" rel="stylesheet" >
@@ -29,7 +30,7 @@
 						</li>
 					</ul>
 					<ul class="navbar-nav">
-					    <cfif IsDefined ('session.stLoggedInUser.username')>
+					    <cfif IsDefined ('session.userName')>
                             <li class="nav-item">
                                 <a class="nav-link active" href="logout.cfm"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</a>
                             </li>

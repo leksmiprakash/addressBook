@@ -230,7 +230,9 @@ body{
   height:250px;
   padding-top: 50px;
 }
-
+.rightDiv{
+  float:right!important;
+}
 
 
 .form-inline a {

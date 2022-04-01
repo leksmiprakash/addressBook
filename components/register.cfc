@@ -6,7 +6,7 @@
             <cfargument name="userName" type="string"/> 
             <cfargument name="password" type="string"/>
             <cfargument name="cpassword" type="string"/>
-            <cfset messageArray = ArrayNew(1) />
+            <cfset variables.messageArray = ArrayNew(1) />
             <cfif arguments.fullName eq "">
                 <cfset ArrayAppend(messageArray, "Please enter the name") />
             </cfif>
@@ -22,12 +22,12 @@
             <cfif arguments.password neq arguments.cpassword>
                 <cfset ArrayAppend(messageArray, "Password and confirm password must be equal") />
             </cfif>
-            <cfquery name="emailcheck">
+            <cfquery name="local.emailcheck">
                 select email 
                 from usersTable
                 where email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" >
             </cfquery>
-            <cfquery name="userCheck">
+            <cfquery name="local.userCheck">
                 select userName 
                 from usersTable
                 where userName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userName#" >

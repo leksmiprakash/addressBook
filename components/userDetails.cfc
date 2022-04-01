@@ -1,15 +1,15 @@
 <cfcomponent displayname="userdata" hint="Data from user side">
 
     <cffunction name="authUser" access="public" >
-        <cfquery name="usersData">
-            SELECT * FROM usersTable WHERE user_id= <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#session.stLoggedInUser.userID#">
+        <cfquery name="local.usersData">
+            SELECT * FROM usersTable WHERE user_id= <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#session.userID#">
         </cfquery>
         <cfreturn usersData>
     </cffunction>
 
     <cffunction  name="selectContact" access="public" returnType="any">
-        <cfquery name="usersData">
-            SELECT * FROM contactNumbers WHERE user_id= #session.stLoggedInUser.userID#
+        <cfquery name="local.usersData">
+            SELECT * FROM contactNumbers WHERE user_id= #session.userID#
         </cfquery>
         <cfreturn usersData>
     </cffunction>
@@ -24,7 +24,7 @@
         <cfargument name="street" type="string"/> 
         <cfargument name="email" type="string"/> 
         <cfargument name="phone" type="string"/>
-        <cfset messageArray = ArrayNew(1) /> 
+        <cfset variables.messageArray = ArrayNew(1) /> 
         <cfif arguments.title eq "">
             <cfset ArrayAppend(messageArray, "Please enter the title") />
         </cfif>
@@ -58,15 +58,15 @@
                 destination="F:\ColdFusion2021\cfusion\wwwroot\addressBook\images\"
                 nameconflict="makeunique"
                 result="img">
-            <cfset img = "#img.serverFile#">
+            <cfset img = img.serverFile>
         <cfelse>
             <cfset img = "no-profile.png">
         </cfif>
         <cfif ArrayIsEmpty(messageArray)>
-            <cfquery result="result">
+            <cfquery result="local.result">
                 INSERT INTO contactNumbers (user_id, title, firstName, lastName, gender, dob, image, address, street, email, phone)
                 VALUES (
-                    <cfqueryparam value="#session.stLoggedInUser.userID#" cfsqltype="CF_SQL_INTEGER">,
+                    <cfqueryparam value="#session.userID#" cfsqltype="CF_SQL_INTEGER">,
                     <cfqueryparam value="#arguments.title#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.fname#" cfsqltype="cf_sql_varchar">,
                     <cfqueryparam value="#arguments.lname#" cfsqltype="cf_sql_varchar">,
@@ -84,7 +84,7 @@
         <cfreturn messageArray>
     </cffunction>
 
-    <cffunction  name="updateContact" access="remote">
+    <cffunction  name="updateContact" access="remote" output="true">
         <cfargument name="title" type="string"/> 
         <cfargument name="fname" type="string"/> 
         <cfargument name="lname" type="string"/> 
@@ -97,7 +97,7 @@
         <cfargument name="email" type="string"/> 
         <cfargument name="phone" type="string"/> 
 		<cfargument name="updatedata" type="integer"/>
-        <cfset messageArray = ArrayNew(1) />
+        <cfset variables.messageArray = ArrayNew(1) />
         <cfif arguments.title eq "">
             <cfset ArrayAppend(messageArray, "Please enter the title") />
         </cfif>
@@ -131,12 +131,12 @@
                 destination="F:\ColdFusion2021\cfusion\wwwroot\addressBook\images\"
                 nameconflict="makeunique"
                 result="img">
-            <cfset variables.img = "#img.serverFile#">
+            <cfset variables.img = img.serverFile>
         <cfelse>
-            <cfset variables.img = "#arguments.old_file#">
+            <cfset variables.img = arguments.old_file>
         </cfif>
         <cfif ArrayIsEmpty(messageArray)>
-            <cfquery name="updateData">
+            <cfquery name="local.updateData">
                 UPDATE contactNumbers 
                 SET title = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.title#">, 
                     firstName = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.fname#">,
@@ -150,14 +150,13 @@
                     phone = <cfqueryparam CFSQLType="cf_sql_varchar" value="#arguments.phone#">
                 WHERE id = <cfqueryparam CFSQLType="CF_SQL_INTEGER" value="#arguments.updatedata#"> 
             </cfquery>
-            <cflocation url="./dashboard.cfm" addtoken="no">
             <cfset  ArrayAppend(messageArray, "Updated successfully")  />
         </cfif>
         <cfreturn messageArray>
     </cffunction>
 
     <cffunction name="deleteQuery" output="false" access="public">
-        <cfquery name="DeleteData"> 
+        <cfquery name="local.DeleteData"> 
                 DELETE FROM contactNumbers 
                 WHERE id = #URL.id# 
         </cfquery> 

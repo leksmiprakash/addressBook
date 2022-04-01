@@ -18,7 +18,7 @@
 		<cfoutput>#result[1]#</cfoutput>
 	</div>
 </cfif>
-<div class="" style="background:#d8e5f1;">
+<div class="container" >
 <div class="container-fluid">
 	<div class="row">
 		<div class="mt-5 ">
