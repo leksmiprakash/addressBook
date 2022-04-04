@@ -1,51 +1,19 @@
-
 <cfoutput>
-    
-    
     <cfinclude  template = "include/header.cfm"  runOnce = "true">
-    <cfif StructKeyExists(Form,'updateContact')>
-        <cfif form.updatedata NEQ "">
-            <cfinvoke component="components.userDetails"  method="updateContact" returnvariable="result">
-                <cfinvokeargument name="title" value="#form.title#"/> 
-                <cfinvokeargument name="fname" value="#form.fname#"/> 
-                <cfinvokeargument name="lname" value="#form.lname#"/> 
-                <cfinvokeargument name="dob" value="#form.dob#"/> 
-                <cfinvokeargument name="gender" value="#form.gender#"/> 
-                <cfinvokeargument name="file" value="#form.file#"/> 
-                <cfinvokeargument name="old_file" value="#form.old_file#"/>
-                <cfinvokeargument name="address" value="#form.address#"/> 
-                <cfinvokeargument name="street" value="#form.street#"/> 
-                <cfinvokeargument name="email" value="#form.email#"/> 
-                <cfinvokeargument name="phone" value="#form.phone#"/> 
-                <cfinvokeargument name="updatedata" value="#form.updatedata#"/> 
-            </cfinvoke>
-            <div id="message" class="alert alert-primary" role="alert">
-                #result[1]#
-            </div>
-        <cfelse>
-            <cfinvoke component="components.userDetails"  method="createContact" returnvariable="result">
-                <cfinvokeargument name="title" value="#form.title#"/> 
-                <cfinvokeargument name="fname" value="#form.fname#"/> 
-                <cfinvokeargument name="lname" value="#form.lname#"/> 
-                <cfinvokeargument name="dob" value="#form.dob#"/> 
-                <cfinvokeargument name="gender" value="#form.gender#"/> 
-                <cfinvokeargument name="address" value="#form.address#"/> 
-                <cfinvokeargument name="street" value="#form.street#"/> 
-                <cfinvokeargument name="email" value="#form.email#"/> 
-                <cfinvokeargument name="phone" value="#form.phone#"/> 
-            </cfinvoke >
-            <div id="message" class="alert alert-primary" role="alert">
-                #result[1]#
-            </div>
-        </cfif>
-    </cfif>
     <div class="container">
         <div class="container-fluid"><br>
             <div class="row">
-                <div class="col-md-12 boxForPrint">
-                    <button onclick="printDiv('contentToPrint')" class="rightDiv"><i class="fa fa-2x fa-print"></i></button>
-                    <a href="printPdf.cfm" ><i class="fa fa-2x fa-file-pdf-o"></i></a>
-                    <a href="PrintExcel.cfm"><i class="fa fa-2x fa-file-excel-o"></i></a>
+                <div class="row boxForPrint">
+                    <div class="col-9">
+                        <div id="message" class="alert alert-success" role="alert">
+                            #session.messageArray[1]#
+                        </div>
+                    </div>
+                    <div class=" col-3">
+                        <button onclick="printDiv('contentToPrint')" class="rightDiv"><i class="fa fa-2x fa-print"></i></button>
+                        <a href="printPdf.cfm" class="rightDiv"><i class="fa fa-2x fa-file-pdf-o"></i></a>
+                        <a href="PrintExcel.cfm" class="rightDiv"><i class="fa fa-2x fa-file-excel-o"></i></a>
+                    </div>
                 </div>
                 <div class="col-md-3 side-profile justify-content-center text-center classWhite" style="width:25%;">
                     
@@ -180,7 +148,7 @@
                                 <h5 class="boxHead" id="boxHead">Create CONTACT</h5><br>
                             </div>
                             <div class="modal-body">
-                                <form method="post" action="" enctype="multipart/form-data" onsubmit="return ValidationAddForm()">
+                                <form method="post" action="components/userDetails.cfc?method=contact" enctype="multipart/form-data" onsubmit="return ValidationAddForm()">
                                     <h5  class="forHr">Personal Contact</h5>
                                     <div class="input-group mt-3">
                                         <div class="form-group col-xs-3 col-md-3 classMargin">
@@ -245,7 +213,7 @@
                                     <div class="form-group">
                                         <div>
                                             <input type="hidden" id="updatedata" name="updatedata" value=""/>
-                                            <input type="hidden" id="user_id" name="user_id" value="#user_id#"/>
+                                            <input type="hidden" id="user_id" name="user_id" value="#session.userID#"/>
                                             <button name="updateContact" type="submit" class="btn btn-primary">Save</button>
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         </div>

@@ -125,7 +125,7 @@ function ValidationAddForm(){
     }
     else if(phone=='')
     {
-        $('#Contactphone').attr('placeholder','Email required');
+        $('#Contactphone').attr('placeholder','Phone required');
         $('#Contactphone').css('border-color','#F00');
         return false;
     }

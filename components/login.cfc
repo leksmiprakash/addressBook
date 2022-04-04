@@ -1,3 +1,6 @@
+<cfscript>
+    
+</cfscript>>
 <cfcomponent displayname="Insert" hint="Insert Different string">
     <cffunction name="authUser" access="public"  output="true">
         <cfargument name="userName" required="true">
@@ -11,7 +14,7 @@
         </cfif>
         <cfset variables.isUserLoggedIn = "">
         <cfif ArrayIsEmpty(messageArray)>
-            <cfquery name="local.checkUser"  result="logResult">
+            <cfquery name="checkUser"  result="logResult">
                 SELECT user_id,userName
                 FROM usersTable
                 WHERE (usersTable.userName = <cfqueryparam value="#arguments.userName#" cfsqltype="cf_sql_varchar" 
@@ -21,6 +24,7 @@
                 <cfset Session.userID = checkUser.user_id>
                 <cfset Session.userName = checkUser.userName>
                 <cfset Session.loggedin = true /> 
+                <cfset Session.message = "Logged In successfully" /> 
                 <cfset ArrayAppend(messageArray, "Logeed In") />
                 <cflocation url="dashboard.cfm" addtoken="no"> 
             <cfelse>
