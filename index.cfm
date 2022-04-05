@@ -1,7 +1,15 @@
 <cfinclude  template = "include/header.cfm"  runOnce = "true">
+<cfparam name="form.userName" default="">
+<cfparam name="form.password" default="">
+<cfif structKeyExists(form,"formSubmit")>
+	<cfinvoke component="components.login" method="getUserDetails" returnvariable="result">
+		<cfinvokeargument name="username" value="#form.userName#"/> 
+		<cfinvokeargument name="password" value="#form.password#"/> 
+	</cfinvoke>
 	<div id="message" class="alert alert-primary" role="alert">
-		<cfoutput>#messageArray[1]#</cfoutput>
+		<cfoutput>#result[1]#</cfoutput>
 	</div>
+</cfif>
 <div class="" >
 	<div class="container-fluid">
 		<div class="row">
@@ -14,9 +22,8 @@
 							</div>
 						</div>
 						<div class="card-body col-md-8">
-							<cfparam name="form.userName" type="string" default="">
-							<cfparam name="form.password" type="string" default="">
-							<form action="components/login.cfc?method=authUser" method="post" name="login" id="login"  onsubmit="return Validation()">
+							
+							<form action="" method="post" name="login" id="login"  onsubmit="return Validation()">
 								<div class="form-group mt-5">
 									<td><input type="Text"  placeholder="Username" name="userName" class="form-control w3-input"  id="userName"></td>
 								</div>

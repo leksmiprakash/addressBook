@@ -1,56 +1,49 @@
-<cfcomponent displayname="Insert" hint="Insert user">
-    <cfif IsDefined("form.registerSubmit")>
-        <cffunction name="registerQuery" output="false" access="public">
-            <cfargument name="fullName" type="string"/> 
-            <cfargument name="email" type="string"/> 
-            <cfargument name="userName" type="string"/> 
-            <cfargument name="password" type="string"/>
-            <cfargument name="cpassword" type="string"/>
-            <cfset variables.messageArray = ArrayNew(1) />
-            <cfif arguments.fullName eq "">
-                <cfset ArrayAppend(messageArray, "Please enter the name") />
-            </cfif>
-            <cfif arguments.email eq "">
-                <cfset ArrayAppend(messageArray, "Please enter the email") />
-            </cfif>
-            <cfif arguments.userName eq "">
-                <cfset ArrayAppend(messageArray, "Please enter the userName") />
-            </cfif>
-            <cfif arguments.password eq "">
-                <cfset ArrayAppend(messageArray, "Please enter the password") />
-            </cfif>
-            <cfif arguments.password neq arguments.cpassword>
-                <cfset ArrayAppend(messageArray, "Password and confirm password must be equal") />
-            </cfif>
-            <cfquery name="local.emailcheck">
-                select email 
-                from usersTable
-                where email = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" >
-            </cfquery>
-            <cfquery name="local.userCheck">
-                select userName 
-                from usersTable
-                where userName = <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.userName#" >
-            </cfquery>
-            <cfif emailcheck.recordcount gte 1 >
-                <cfset  ArrayAppend(messageArray, "Email already exists")  />
-            </cfif>
-            <cfif userCheck.recordcount gte 1 >
-                <cfset  ArrayAppend(messageArray, "UserName already exists")  />
-            </cfif>
-            <cfif ArrayIsEmpty(messageArray)>
-                <cfquery name="local.regUsers"> 
-                    INSERT INTO usersTable (fullName,email,userName,password)
-                    VALUES (
-                        <cfqueryparam value="#arguments.fullName#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#arguments.email#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#arguments.userName#" cfsqltype="cf_sql_varchar">,
-                        <cfqueryparam value="#hash(arguments.password)#" cfsqltype="cf_sql_varchar">
-                    ) 
-                </cfquery> 
-                <cfset  ArrayAppend(messageArray, "Inserted successfully")  />
-            </cfif>
-            <cfreturn messageArray>
-        </cffunction>
-    </cfif>
-</cfcomponent>
+<cfscript>
+    component {
+        remote function registerQuery (){
+            var name       = form.fullName;
+            var email      = form.email;
+            var userName   = form.userName;
+            var password   = form.password;
+            var cpassword   = form.cpassword;
+            Session.messageArray = ArrayNew(1);
+            if(name eq ""){
+                ArrayAppend(Session.messageArray, "Please enter the FullName","true"); 
+            }
+            else if(email eq ""){
+                ArrayAppend(Session.messageArray, "Please enter the Email","true"); 
+            }
+            else if(userName eq ""){
+                ArrayAppend(Session.messageArray, "Please enter the UserName","true"); 
+            }
+            else if(password eq ""){
+                ArrayAppend(Session.messageArray, "Please enter the Password","true"); 
+            }
+            else if(cpassword eq ""){
+                ArrayAppend(Session.messageArray, "Please enter the Confirm Password","true"); 
+            }
+            else if(ArrayIsEmpty(Session.messageArray)){
+                var qService= new query();
+                qService.setDatasource("cfsample");
+                qService.setName("qRegisterQry");
+                qService.addParam(name="fullName", value="#trim(form.fullName)#", cfsqltype="cf_sql_varchar");
+                qService.addParam(name="email", value="#trim(form.email)#", cfsqltype="cf_sql_varchar");
+                qService.addParam(name="userName", value="#trim(form.userName)#", cfsqltype="cf_sql_varchar");
+                qService.addParam(name="password", value="#hash(trim(form.password))#", cfsqltype="cf_sql_varchar");
+                qService.setSql("insert into  usersTable(fullName,email,userName,password) 
+                values (:fullname, :email, :username, :password)");
+                var result=qService.execute();
+                var resultKey  = result.getPrefix().generatedkey;
+                if(resultKey > 0){
+                    ArrayAppend(Session.messageArray, "Successfully Registered","true"); 
+                    location("/addressBook/register.cfm",false);
+                }
+                else{
+                    ArrayAppend(Session.messageArray, "Something went wrong...","true"); 
+                    location("/addressBook/register.cfm",false);
+                }
+            }
+            return Session.messageArray ;
+        }
+    }
+</cfscript>

@@ -25,12 +25,7 @@ function ValidationSignup(){
     let password= $('#password').val();
     let cpassword= $('#cpassword').val();
 
-    if(fullName=='')
-    {
-        $('#fullName').attr('placeholder','Full Name required');
-        $('#fullName').css('border-color','#F00');
-        return false;
-    }
+   
     if(email=='')
     {
         $('#email').attr('placeholder','Email required');

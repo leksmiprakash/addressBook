@@ -5,9 +5,7 @@
             <div class="row">
                 <div class="row boxForPrint">
                     <div class="col-9">
-                        <div id="message" class="alert alert-success" role="alert">
-                            #session.messageArray[1]#
-                        </div>
+                        
                     </div>
                     <div class=" col-3">
                         <button onclick="printDiv('contentToPrint')" class="rightDiv"><i class="fa fa-2x fa-print"></i></button>
@@ -25,8 +23,9 @@
                 </div>
                 
                 <div class="col-md-8 forTableContent" id="contentToPrint">
-                    <cfinvoke component="components.userDetails"  method="selectContact" returnvariable="userData">
-                    </cfinvoke>
+                    <cfset variables.userId = Session.userID />
+                    <cfset ContactObj=CreateObject("component","components.userDetails")/>
+                    <cfset allcontacts=ContactObj.displayalldata(variables.userId)/>
                     <table class="table table-responsive" >
                         <thead>
                         <tr>
@@ -40,98 +39,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <cfloop query="#userData#">
+                            <cfloop array="#allcontacts#" item="allcontacts">
                                 <tr>
-                                    <th scope="row"><img src="./images/#userData.image#" width="100px" height="100px" style="border-radius:50%"></th>
-                                    <td>#userData.firstName# #userData.lastName#</td>
-                                    <td>#userData.email#</td>
-                                    <td>#userData.phone#</td>
+                                    <th scope="row"><img src="./images/#allcontacts.getImage()#" width="100px" height="100px" style="border-radius:50%"></th>
+                                    <td>#allcontacts.getFirstName()&' '&allcontacts.getLastName()#</td>
+                                    <td>#allcontacts.getEmail()#</td>
+                                    <td>#allcontacts.getPhone()#</td>
                                     <td>
-                                        <a class="btn btn btn-outline-primary btn-sm button-18 editbtn" data-conid="#userData.id#" id="editbtn"  data-bs-toggle="modal" data-bs-target="##exampleModal">
+                                        <a class="btn btn btn-outline-primary btn-sm button-18 editbtn" data-conid="#allcontacts.getId()#" id="editbtn"  data-bs-toggle="modal" data-bs-target="##exampleModal">
                                             Edit
                                         </a>
                                     </td>
-                                    <td><a href="deleteAction.cfm?id=#userData.id#" class="button-18" onclick="return confirm('Are you sure?');" >Delete</a></td>
-                                    <td><button class="button-18" data-bs-toggle="modal" data-bs-target=".viewModal-#userData.id#">View</button></td>
-                                    
-                                    <div class="modal fade bd-example-modal-lg viewModal-#userData.id#"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-md" role="document">
-                                            <form method="post" action="" enctype="multipart/form-data" >
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <h3>Personal Contact</h3>
-                                                                <hr>
-                                                            </div>
-                                                            <div class="col-md-3">
-                                                                Name 
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                : #userData.title#  #userData.firstName# #userData.lastName#
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-4">
-                                                            <div class="col-md-3">
-                                                                Gender 
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                : #userData.gender#
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-4">
-                                                            <div class="col-md-3">
-                                                                DOB 
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                : #userData.dob#
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-4">
-                                                            <div class="col-md-3">
-                                                                Address 
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                : #userData.address#, #userData.street#
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-4">
-                                                            <div class="col-md-3">
-                                                                Email 
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                : #userData.email#
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-4">
-                                                            <div class="col-md-3">
-                                                                Phone 
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                : #userData.phone#
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-4">
-                                                            <div class="col-md-3">
-                                                                Image 
-                                                            </div>
-                                                            <div class="col-md-9">
-                                                                : <img src="./images/#userData.image#" width="100px" height="100px" style="border-radius:50%">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+                                    <td><a href="deleteAction.cfm?id=#allcontacts.getId()#" class="button-18" onclick="return confirm('Are you sure?');" >Delete</a></td>
+                                    <td><button class="button-18 viewBtn" data-bs-toggle="modal" data-conid="#allcontacts.getId()#" data-bs-target="##viewModal">View</button></td>
                                 </tr>
                             </cfloop>
                         </tbody>
@@ -139,6 +59,7 @@
                 </div>
             </div>
         </div>
+        
         <div id="exampleModal" class="modal fade">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content tempBackground" >
@@ -228,6 +149,84 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+        <div class="modal fade bd-example-modal-lg" id="viewModal"  tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <form method="post" action="" enctype="multipart/form-data" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3>Personal Contact</h3>
+                                    <hr>
+                                </div>
+                                <div class="col-md-3">
+                                    Name 
+                                </div>
+                                <div class="col-md-9">
+                                    : #allcontacts.getTitle#  #allcontacts.getFirstName# #allcontacts.getLastName#
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    Gender 
+                                </div>
+                                <div class="col-md-9">
+                                    : #allcontacts.getGender#
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    DOB 
+                                </div>
+                                <div class="col-md-9">
+                                    : #allcontacts.getDob#
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    Address 
+                                </div>
+                                <div class="col-md-9">
+                                    : #allcontacts.getAddress#, #allcontacts.getStreet#
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    Email 
+                                </div>
+                                <div class="col-md-9">
+                                    : #allcontacts.getEmail#
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    Phone 
+                                </div>
+                                <div class="col-md-9">
+                                    : #allcontacts.getPhone#
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    Image 
+                                </div>
+                                <div class="col-md-9">
+                                    : <img src="./images/#allcontacts.getImage#" width="100px" height="100px" style="border-radius:50%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </cfoutput>
 <script>
